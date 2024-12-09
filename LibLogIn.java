@@ -66,13 +66,17 @@ public class LibLogIn extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtloginusername = new javax.swing.JTextField();
-        txtloginpass = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        txtloginpass = new javax.swing.JPasswordField();
         jLabel11 = new javax.swing.JLabel();
+
+        jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -90,21 +94,14 @@ public class LibLogIn extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Password: ");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, 30));
 
         txtloginusername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtloginusernameActionPerformed(evt);
             }
         });
-        getContentPane().add(txtloginusername, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 373, 31));
-
-        txtloginpass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtloginpassActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtloginpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 373, 31));
+        getContentPane().add(txtloginusername, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 370, 31));
 
         jButton1.setText("Log In");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +110,15 @@ public class LibLogIn extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 110, 35));
+
+        jButton3.setText("Back");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 110, 35));
+        getContentPane().add(txtloginpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 202, 370, 30));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kahitano.jpg"))); // NOI18N
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -124,10 +130,6 @@ public class LibLogIn extends javax.swing.JFrame {
     private void txtloginusernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtloginusernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtloginusernameActionPerformed
-
-    private void txtloginpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtloginpassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtloginpassActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username;
@@ -148,12 +150,21 @@ public class LibLogIn extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Login successful.");
                 txtloginusername.setText("");
                 txtloginpass.setText("");
+                LibrarianMainPage Lmp = new LibrarianMainPage();
+                Lmp.setVisible(true);
+                this.dispose();
             };
         } catch (SQLException ex) {
             Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        First_Page Fp = new First_Page();
+        Fp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,11 +203,13 @@ public class LibLogIn extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtloginpass;
+    private javax.swing.JPasswordField txtloginpass;
     private javax.swing.JTextField txtloginusername;
     // End of variables declaration//GEN-END:variables
 }

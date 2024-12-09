@@ -66,13 +66,15 @@ public class First_Page extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       /* LibLogIn login = new LibLogIn();
+        LibLogIn login = new LibLogIn();
         login.setVisible(true);
-        this.setVisible(false); */
+        this.setVisible(false); 
        
+       /*
        LibrarianMainPage LMP = new LibrarianMainPage();
        LMP.setVisible(true);
        this.setVisible(false);
+       */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

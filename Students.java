@@ -1,14 +1,14 @@
 
 import java.awt.Image;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,12 +21,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public class AddBook extends javax.swing.JFrame {
+public class Students extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddBook
+     * Creates new form Students
      */
-    public AddBook() {
+    public Students() {
         initComponents();
         set();
     }
@@ -38,7 +38,7 @@ public class AddBook extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
         }
-        LoadBooks();
+        LoadStudent();
     }
     PreparedStatement pst;
     Connection con;
@@ -47,7 +47,7 @@ public class AddBook extends javax.swing.JFrame {
     String query;
     
     
-    String Bid, Bname, Bauthor, Bedition, Bstatus;
+    
     
     private static final String DbName = "library_system";
     private static final String DbDriver = "com.mysql.cj.jdbc.Driver";
@@ -69,14 +69,15 @@ public class AddBook extends javax.swing.JFrame {
         
     }
     
-    
     public void setImage(){
         ImageIcon icon = new ImageIcon(getClass().getResource("Logo.jpg"));
         Image img = icon.getImage().getScaledInstance(logo.getWidth(),logo.getHeight(),Image.SCALE_SMOOTH);
         logo.setIcon(new ImageIcon(img));
     }
     
-    public void LoadBooks(){
+    String Sid, Sname, Syearandsection, Scourse, Ssemester;
+    
+    public void LoadStudent(){
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
         try {
@@ -84,17 +85,17 @@ public class AddBook extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
         }
-        query = "SELECT * FROM book";
+        query = "SELECT * FROM student";
         try {
             rs = st.executeQuery(query);
             while(rs.next()){
-                Bid = rs.getString("book_id");
-                Bname = rs.getString("bookname");
-                Bauthor = rs.getString("author");
-                Bedition = rs.getString("edition");
-                Bstatus = rs.getString("status");
+                Sid = rs.getString("student_id");
+                Sname = rs.getString("name");
+                Syearandsection = rs.getString("year_and_section");
+                Scourse = rs.getString("course");
+                Ssemester = rs.getString("semester");
                 
-                Object[] row = {Bid,Bname,Bauthor,Bedition,Bstatus}; 
+                Object[] row = {Sid,Sname,Syearandsection,Scourse,Ssemester}; 
                 model.addRow(row);
                 
             }
@@ -132,27 +133,30 @@ public class AddBook extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        rbname = new javax.swing.JTextField();
-        RBid = new javax.swing.JTextField();
-        rbauthor = new javax.swing.JTextField();
-        rbedition = new javax.swing.JTextField();
+        rsname = new javax.swing.JTextField();
+        RSid = new javax.swing.JTextField();
+        ryearandsection = new javax.swing.JTextField();
+        rcourse = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        rsemester = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        bookname = new javax.swing.JTextField();
-        bookid = new javax.swing.JTextField();
-        bookauthor = new javax.swing.JTextField();
-        bookedition = new javax.swing.JTextField();
+        studentname = new javax.swing.JTextField();
+        studentid = new javax.swing.JTextField();
+        yearandsection = new javax.swing.JTextField();
+        course = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        semester = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("ADD BOOK");
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -220,7 +224,7 @@ public class AddBook extends javax.swing.JFrame {
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(39, 39, 39)
                 .addComponent(jButton11)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -251,23 +255,23 @@ public class AddBook extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("BOOKS");
+        jLabel2.setText("STUDENTS");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "BOOK ID", "BOOK NAME", "AUTHOR", "EDITION", "AVAILABLE"
+                "STUDENT ID", "STUDENT NAME", "YEAR & SECTION", "COURSE", "SEMESTER"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(75);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -275,7 +279,9 @@ public class AddBook extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,25 +298,25 @@ public class AddBook extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Poor Richard", 0, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("REMOVE A BOOK");
+        jLabel4.setText("REMOVE A STUDENT");
 
-        jLabel5.setText("Book ID");
+        jLabel5.setText("Student ID");
 
-        jLabel6.setText("Book Name");
+        jLabel6.setText("Student Name");
 
-        jLabel7.setText("Author");
+        jLabel7.setText("Year & Section");
 
-        jLabel8.setText("Edition");
+        jLabel8.setText("Course");
 
-        RBid.addActionListener(new java.awt.event.ActionListener() {
+        RSid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RBidActionPerformed(evt);
+                RSidActionPerformed(evt);
             }
         });
 
-        rbedition.addActionListener(new java.awt.event.ActionListener() {
+        rcourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbeditionActionPerformed(evt);
+                rcourseActionPerformed(evt);
             }
         });
 
@@ -332,31 +338,45 @@ public class AddBook extends javax.swing.JFrame {
             }
         });
 
+        jLabel15.setText("Semester");
+
+        rsemester.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rsemesterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 22, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(rbedition, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                    .addComponent(rbname)
-                    .addComponent(rbauthor, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(RBid))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(42, 42, 42)
+                        .addComponent(rsemester))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(rcourse, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(rsname)
+                            .addComponent(ryearandsection, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RSid))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,22 +385,26 @@ public class AddBook extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(RBid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RSid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(rbname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rsname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbauthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ryearandsection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbedition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rcourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(rsemester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jPanel7.setBackground(new java.awt.Color(245, 245, 245));
@@ -389,25 +413,25 @@ public class AddBook extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Poor Richard", 0, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("ADD NEW BOOK");
+        jLabel9.setText("ADD NEW STUDENT");
 
-        jLabel10.setText("Book ID");
+        jLabel10.setText("Student ID");
 
-        jLabel11.setText("Book Name");
+        jLabel11.setText("Student Name");
 
-        jLabel12.setText("Author");
+        jLabel12.setText("Year & Section");
 
-        jLabel13.setText("Edition");
+        jLabel13.setText("Course");
 
-        bookid.addActionListener(new java.awt.event.ActionListener() {
+        studentid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bookidActionPerformed(evt);
+                studentidActionPerformed(evt);
             }
         });
 
-        bookedition.addActionListener(new java.awt.event.ActionListener() {
+        course.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bookeditionActionPerformed(evt);
+                courseActionPerformed(evt);
             }
         });
 
@@ -429,31 +453,41 @@ public class AddBook extends javax.swing.JFrame {
             }
         });
 
+        jLabel14.setText("Semester");
+
+        semester.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                semesterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(jLabel12)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bookedition, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                    .addComponent(bookname)
-                    .addComponent(bookauthor, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bookid))
+                    .addComponent(course, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(studentname)
+                    .addComponent(yearandsection, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(studentid)
+                    .addComponent(semester))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -462,22 +496,26 @@ public class AddBook extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(bookid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(studentid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(bookname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(studentname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bookauthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearandsection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bookedition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(course, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(semester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -508,8 +546,6 @@ public class AddBook extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel6.getAccessibleContext().setAccessibleName("");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -518,7 +554,7 @@ public class AddBook extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -532,7 +568,9 @@ public class AddBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        AddBook ab = new AddBook();
+        ab.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -547,31 +585,42 @@ public class AddBook extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void RBidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RBidActionPerformed
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_RBidActionPerformed
+    }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void rbeditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbeditionActionPerformed
+    private void RSidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RSidActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbeditionActionPerformed
+    }//GEN-LAST:event_RSidActionPerformed
+
+    private void rcourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rcourseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rcourseActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        String sql1 = "SELECT * FROM book WHERE book_id = ?";
+        String sql1 = "SELECT * FROM student WHERE student_id = ?";
         try {
             pst = con.prepareStatement(sql1);
-            pst.setString(1, RBid.getText());
+            pst.setString(1, RSid.getText());
             rs = pst.executeQuery();
             if(rs.next()){
-                String add1 = rs.getString("bookname");
-                rbname.setText(add1);
-                String add2 = rs.getString("author");
-                rbauthor.setText(add2);
-                String add3 = rs.getString("edition");
-                rbedition.setText(add3);
+                String add1 = rs.getString("name");
+                rsname.setText(add1);
+                String add2 = rs.getString("year_and_section");
+                ryearandsection.setText(add2);
+                String add3 = rs.getString("course");
+                rcourse.setText(add3);
+                String add4 = rs.getString("semester");
+                rsemester.setText(add4);
                 rs.close();
                 pst.close();
             }else{
-                JOptionPane.showMessageDialog(this, "Book not found or already deleted.");
+                JOptionPane.showMessageDialog(this, "Student not found or already deleted.");
+                RSid.setText("");
+                rsname.setText("");
+                ryearandsection.setText("");
+                rcourse.setText("");
+                rsemester.setText("");
             }
         } catch (SQLException ex) {
             Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
@@ -579,103 +628,111 @@ public class AddBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-         String sql2 = "DELETE FROM book WHERE book_id = ?";
-    try {
-        // Prepare the statement
-        pst = con.prepareStatement(sql2);
-        pst.setString(1, RBid.getText());
-
-        // Execute the update
-        int rowsDeleted = pst.executeUpdate();
-        if (rowsDeleted > 0) {
-            LoadBooks();
-            JOptionPane.showMessageDialog(this, "Book deleted successfully!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Book not found or already deleted.");
-        }
-
-        // Clear text fields
-        RBid.setText("");
-        rbname.setText("");
-        rbauthor.setText("");
-        rbedition.setText("");
-
-    } catch (SQLException ex) {
-        Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
-        JOptionPane.showMessageDialog(this, "Error while deleting book: " + ex.getMessage());
-    } finally {
+        String sql2 = "DELETE FROM student WHERE student_id = ?";
         try {
-            if (pst != null) {
-                pst.close();
+            
+            pst = con.prepareStatement(sql2);
+            pst.setString(1, RSid.getText());
+
+            
+            int rowsDeleted = pst.executeUpdate();
+            if (rowsDeleted > 0) {
+                LoadStudent();
+                JOptionPane.showMessageDialog(this, "Student deleted successfully!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Student not found or already deleted.");
             }
+
+            
+            RSid.setText("");
+            rsname.setText("");
+            ryearandsection.setText("");
+            rcourse.setText("");
+            rsemester.setText("");
+            
+
         } catch (SQLException ex) {
             Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error while deleting book: " + ex.getMessage());
+        } finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void bookidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookidActionPerformed
+    private void studentidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentidActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bookidActionPerformed
+    }//GEN-LAST:event_studentidActionPerformed
 
-    private void bookeditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookeditionActionPerformed
+    private void courseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bookeditionActionPerformed
+    }//GEN-LAST:event_courseActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-       if(bookid.getText().equals("")){
-           JOptionPane.showMessageDialog(this, "Please enter a book id");
-       }else if(bookname.getText().equals("")){
-           JOptionPane.showMessageDialog(this, "Please enter a book name");
-       }else if(bookauthor.getText().equals("")){
-           JOptionPane.showMessageDialog(this, "Please enter a book author");
-       }else if(bookedition.getText().equals("")){
-           JOptionPane.showMessageDialog(this, "Please enter a book edition");
-       }else{
-           String BookId = bookid.getText();
-           String BookName = bookname.getText();
-           String BookAuthor = bookauthor.getText();
-           String BookEdition = bookedition.getText();
-           String BookStatus = "YES";
-           try {
-               Connection();
-               pst = con.prepareStatement("INSERT INTO book(book_id, bookname,author, edition, status)VALUES(?,?,?,?,?)");
-               pst.setString(1, BookId);
-               pst.setString(2, BookName);
-               pst.setString(3, BookAuthor);
-               pst.setString(4, BookEdition);
-               pst.setString(5, BookStatus);
-               
-               int k = pst.executeUpdate();
-               if(k == 1){
-                   JOptionPane.showMessageDialog(this, "New Book Added Successful.");
-                   LoadBooks();
-                   bookid.setText("");
-                   bookname.setText("");
-                   bookauthor.setText("");
-                   bookedition.setText("");
-                   bookid.requestFocus();
-               }
-           } catch (SQLException ex) {
-               Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
-           }
-       }
+        if(studentid.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter a student id");
+        }else if(studentname.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter a student name");
+        }else if(yearandsection.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter a year and section");
+        }else if(course.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter the student course");
+        }else if(semester.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter the semester");
+        }else{
+            String StudentId = studentid.getText();
+            String StudentName = studentname.getText();
+            String StudentYearandSection = yearandsection.getText();
+            String StudentCouse = course.getText();
+            String StudentSemester = semester.getText();
+            try {
+                Connection();
+                pst = con.prepareStatement("INSERT INTO student(student_id, name, year_and_section, course, semester)VALUES(?,?,?,?,?)");
+                pst.setString(1, StudentId);
+                pst.setString(2, StudentName);
+                pst.setString(3, StudentYearandSection);
+                pst.setString(4, StudentCouse);
+                pst.setString(5, StudentSemester);
+
+                int k = pst.executeUpdate();
+                if(k == 1){
+                    JOptionPane.showMessageDialog(this, "New Student Added Successful.");
+                    LoadStudent();
+                    studentid.setText("");
+                    studentname.setText("");
+                    yearandsection.setText("");
+                    course.setText("");
+                    semester.setText("");
+                    studentid.requestFocus();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        LoadBooks();
-                   bookid.setText("");
-                   bookname.setText("");
-                   bookauthor.setText("");
-                   bookedition.setText("");
-                   bookid.requestFocus();
+        LoadStudent();
+        studentid.setText("");
+        studentname.setText("");
+        yearandsection.setText("");
+        course.setText("");
+        semester.setText("");
+        studentid.requestFocus();
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        Students stud = new Students();
-        stud.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton10ActionPerformed
+    private void semesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_semesterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_semesterActionPerformed
+
+    private void rsemesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rsemesterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rsemesterActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         String message = "Type 'Yes' to proceed:";
@@ -719,31 +776,27 @@ public class AddBook extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Students.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Students.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Students.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Students.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddBook().setVisible(true);
-                
+                new Students().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField RBid;
-    private javax.swing.JTextField bookauthor;
-    private javax.swing.JTextField bookedition;
-    private javax.swing.JTextField bookid;
-    private javax.swing.JTextField bookname;
+    private javax.swing.JTextField RSid;
+    private javax.swing.JTextField course;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -759,6 +812,8 @@ public class AddBook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -774,8 +829,13 @@ public class AddBook extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField rbauthor;
-    private javax.swing.JTextField rbedition;
-    private javax.swing.JTextField rbname;
+    private javax.swing.JTextField rcourse;
+    private javax.swing.JTextField rsemester;
+    private javax.swing.JTextField rsname;
+    private javax.swing.JTextField ryearandsection;
+    private javax.swing.JTextField semester;
+    private javax.swing.JTextField studentid;
+    private javax.swing.JTextField studentname;
+    private javax.swing.JTextField yearandsection;
     // End of variables declaration//GEN-END:variables
 }
