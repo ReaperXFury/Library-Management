@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -77,6 +79,62 @@ public class AddBook extends javax.swing.JFrame {
     }
     
     public void LoadBooks(){
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        try {
+            Connection();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Step 1: Fetch all issued book IDs
+        Set<String> issuedBookIds = new HashSet<>();
+        query = "SELECT bookid FROM issuebook";
+        try {
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                issuedBookIds.add(rs.getString("bookid"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Step 2: Fetch all books and check their status
+        query = "SELECT * FROM book";
+        try {
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String Bid = rs.getString("book_id");
+                String Bname = rs.getString("bookname");
+                String Bauthor = rs.getString("author");
+                String Bedition = rs.getString("edition");
+                
+                /*
+                // Check if the book is issued
+                String Bstatus = issuedBookIds.contains(Bid) ? "NO" : "YES";
+
+                // Update the book status in the database if it's "NO"
+                if (Bstatus.equals("NO")) {
+                    PreparedStatement updateStatusStmt = con.prepareStatement("UPDATE book SET status = ? WHERE book_id = ?");
+                    updateStatusStmt.setString(1, "NO");
+                    updateStatusStmt.setString(2, Bid);
+                    updateStatusStmt.executeUpdate();
+                }
+
+                Object[] row = {Bid, Bname, Bauthor, Bedition, Bstatus};
+                model.addRow(row);
+                */
+                Object[] row = {Bid, Bname, Bauthor, Bedition};
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        
+    
+        /*
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
         try {
@@ -258,16 +316,15 @@ public class AddBook extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BOOK ID", "BOOK NAME", "AUTHOR", "EDITION", "AVAILABLE"
+                "BOOK ID", "BOOK NAME", "AUTHOR", "EDITION"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(75);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
